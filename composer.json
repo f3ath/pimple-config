@@ -1,0 +1,31 @@
+{
+  "name": "f3ath/silex-config",
+  "description": "Simple multi-environment configuration for Silex with secret storage support",
+  "type": "library",
+  "require-dev": {
+    "silex/silex": "^2",
+    "phpunit/phpunit": "^6.0",
+    "squizlabs/php_codesniffer": "^2.8"
+  },
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexey Karapetov",
+      "email": "karapetov@gmail.com"
+    }
+  ],
+  "require": {},
+  "config": {
+    "platform": {
+      "php": "7"
+    }
+  },
+  "suggest": {
+    "silex/silex": "Silex Framework"
+  },
+  "autoload": {
+    "psr-4": {
+      "F3\\SilexConfig\\": "src/"
+    }
+  }
+}
