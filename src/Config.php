@@ -57,5 +57,4 @@ class Config implements ServiceProviderInterface
             $config['services']
         );
     }
-
 }
