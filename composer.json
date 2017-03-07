@@ -1,12 +1,7 @@
 {
-  "name": "f3ath/silex-config",
-  "description": "Simple multi-environment configuration for Silex with secret storage support",
+  "name": "f3ath/pimple-config",
+  "description": "Simple multi-environment configuration for Pimple with secret storage support",
   "type": "library",
-  "require-dev": {
-    "silex/silex": "^2",
-    "phpunit/phpunit": "^6.0",
-    "squizlabs/php_codesniffer": "^2.8"
-  },
   "license": "MIT",
   "authors": [
     {
@@ -14,18 +9,24 @@
       "email": "karapetov@gmail.com"
     }
   ],
-  "require": {},
   "config": {
     "platform": {
       "php": "7"
     }
   },
-  "suggest": {
-    "silex/silex": "Silex Framework"
+  "require": {
+    "pimple/pimple": "^3"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^6",
+    "squizlabs/php_codesniffer": "^2.8"
   },
   "autoload": {
     "psr-4": {
-      "F3\\SilexConfig\\": "src/"
+      "F3\\PimpleConfig\\": "src/"
     }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit"
   }
 }

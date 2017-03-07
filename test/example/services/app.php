@@ -1,6 +1,6 @@
 <?php
 // Generic application settings
-return function (\Silex\Application $app, array $config, string $env) {
-    $app['env'] = $env;
-    $app['debug'] = $config['debug'];
+return function (\Pimple\Container $container, array $config, string $env) {
+    $container['env'] = $env;
+    $container['debug'] = $config['debug'];
 };

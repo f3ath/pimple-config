@@ -1,49 +1,49 @@
 <?php
-namespace F3\SilexConfig;
+namespace F3\PimpleConfig;
 
 use PHPUnit\Framework\TestCase;
-use Silex\Application;
+use Pimple\Container;
 
 class ConfigTest extends TestCase
 {
     public function testExampleProd()
     {
-        $app = new Application();
-        (new Config(__DIR__ . '/example'))->configure($app, 'prod');
+        $container = new Container();
+        $container->register(new Config(__DIR__ . '/example', 'prod'));
 
         $this->assertEquals(
             'prod',
-            $app['env'],
+            $container['env'],
             'Environment name is set correctly'
         );
         $this->assertFalse(
-            $app['debug'],
+            $container['debug'],
             'Debug is disabled in prod'
         );
         $this->assertEquals(
             'foo is common_foo, bar is prod_bar, password is s3(r37p455w0rd',
-            $app['hello'],
+            $container['hello'],
             'Hello service returns the correct string'
         );
     }
 
     public function testExampleDev()
     {
-        $app = new Application();
-        (new Config(__DIR__ . '/example'))->configure($app, 'dev');
+        $container = new Container();
+        $container->register(new Config(__DIR__ . '/example', 'dev'));
 
         $this->assertEquals(
             'dev',
-            $app['env'],
+            $container['env'],
             'Environment name is set correctly'
         );
         $this->assertTrue(
-            $app['debug'],
+            $container['debug'],
             'Debug is enabled in dev'
         );
         $this->assertEquals(
             'foo is dev_foo, bar is common_bar, password is dev_password',
-            $app['hello'],
+            $container['hello'],
             'Hello service returns the correct string'
         );
     }
@@ -54,7 +54,7 @@ class ConfigTest extends TestCase
      */
     public function testInvalidEnvName()
     {
-        $app = new Application();
-        (new Config(__DIR__ . '/example'))->configure($app, 'stage');
+        $container = new Container();
+        $container->register(new Config(__DIR__ . '/example', 'stage'));
     }
 }

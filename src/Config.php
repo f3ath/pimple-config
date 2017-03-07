@@ -1,58 +1,61 @@
 <?php
-namespace F3\SilexConfig;
+namespace F3\PimpleConfig;
 
-use Silex\Application;
+use Pimple\Container;
+use Pimple\ServiceProviderInterface;
 
-class Config
+class Config implements ServiceProviderInterface
 {
-    const KEY_SERVICES = 'services';
-    const KEY_SECRET_JSON = 'secret_json';
     private $dir;
+    private $env;
 
-    public function __construct(string $dir)
+    public function __construct(string $config_root, string $environment_name)
     {
-        $this->dir = $dir;
+        $this->dir = $config_root;
+        $this->env = $environment_name;
     }
 
-    public function configure(Application $app, string $env = 'prod')
+    public function register(Container $pimple)
     {
-        $config = array_replace_recursive(
-            $this->getDefaultConfig(),
-            $this->getConfig($env)
-        );
-        if ($config[self::KEY_SECRET_JSON]) {
-            $config = array_replace_recursive(
-                $config,
-                $this->getSecretConfig($config[self::KEY_SECRET_JSON])
-            );
-        }
-        array_map(
-            function ($service) use ($app, $config, $env) {
-                (require $service)($app, $config, $env);
-            },
-            $config[self::KEY_SERVICES]
-        );
+        $config = $this->getConfig();
+        $config = $this->applySecretConfig($config);
+        $this->configureServices($pimple, $config);
     }
 
-    private function getConfig(string $env): array
+    protected function getConfig(): array
     {
-        $file = "{$this->dir}/{$env}.php";
+        $file = "{$this->dir}/{$this->env}.php";
         if (file_exists($file)) {
             return include $file;
         }
-        throw new \InvalidArgumentException("Configuration not found for $env");
+        throw new \InvalidArgumentException("Configuration not found for {$this->env}");
     }
 
-    private function getDefaultConfig(): array
+    protected function applySecretConfig($config): array
     {
-        return [
-            self::KEY_SERVICES => [],
-            self::KEY_SECRET_JSON => null,
-        ];
+        return array_replace_recursive(
+            $config,
+            $this->getSecretConfig($config)
+        );
     }
 
-    private function getSecretConfig(string $file): array
+    protected function getSecretConfig(array $config): array
     {
-        return json_decode(file_get_contents($file), true);
+        $secret_json = $config['secret_json'] ?? null;
+        if ($secret_json) {
+            return json_decode(file_get_contents($secret_json), true);
+        }
+        return [];
     }
+
+    protected function configureServices(Container $container, array $config)
+    {
+        array_map(
+            function ($service) use ($container, $config) {
+                (require $service)($container, $config, $this->env);
+            },
+            $config['services']
+        );
+    }
+
 }
