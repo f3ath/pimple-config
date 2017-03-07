@@ -5,7 +5,7 @@ composer install f3ath/pimple-config
 ```
 ## Configuration structure
 ### Environment-specific config
-A config is an `<environment_name>.php` file which returns an array:
+A config is a file named `<environment_name>.php` which returns an array:
 ```php
 <?php
 // dev.php
