@@ -1,4 +1,4 @@
-## Simple multi-environment configuration for Pimple/Silex with secret storage support
+# Simple multi-environment configuration for Pimple/Silex with secret storage support
 ## Install
 ```
 composer install f3ath/pimple-config
