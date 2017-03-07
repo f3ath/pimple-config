@@ -56,7 +56,7 @@ A service config is a php script which returns a special function:
 // services/application.php
 return function (\Pimple\Container $container, array $config, string $env) {
     $container['hello'] = function () use ($config, $env) {
-        // here you create and return a service in Pimple way
+        // here you create and return a service the Pimple way
     };
 };
 ```
