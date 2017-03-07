@@ -27,7 +27,7 @@ return array_replace_recursive(require __DIR__ . '/common.php', [ // inherit fro
 ### Secret config
 It is a healthy practice to store sensitive data like passwords outside of the repository. The simplest implementation
 would be to store such files right on the server. These files may be edited directly, so they should not be php scripts,
-since there is a good chance to accidentally remove the `<?php` header and expose their content. A natural choice in
+since it's easy to accidentally remove the `<?php` header and expose their content. A natural choice in
 this case is JSON. PimpleConfig supports a special `secret_json` key to include such files.
 ```php
 <?php
